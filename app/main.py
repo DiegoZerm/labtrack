@@ -38,7 +38,7 @@ def create_app(settings: Settings | None = None):
         response.headers["Referrer-Policy"] = "same-origin"
         if request.url.path.startswith("/api"):
             response.headers["Cache-Control"] = "no-store"
-        if request.url.path == "/":
+        if request.url.path in ("/", "/v1"):
             response.headers["Content-Security-Policy"] = (
                 "default-src 'self'; script-src 'self'; style-src 'self'; "
                 "img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; "
@@ -75,5 +75,10 @@ def create_app(settings: Settings | None = None):
     @app.get("/", include_in_schema=False)
     def index():
         return FileResponse(WEB / "index.html")
+
+    @app.get("/v1", include_in_schema=False)
+    def index_v1():
+        # Respaldo: interfaz original de la plantilla del taller, sobre la misma API.
+        return FileResponse(WEB / "v1" / "index.html")
 
     return app
