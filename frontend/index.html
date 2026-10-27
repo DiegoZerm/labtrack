@@ -4,32 +4,40 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>LabTrack · Tu bitácora de experimentos</title>
   <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="/static/theme.css">
   <script src="/static/app.js" defer></script>
+  <script src="/static/registro.js" defer></script>
 </head>
 <body>
   <div id="notice" role="status" aria-live="polite" hidden></div>
+  <a class="cambio-version" href="/v1" title="Abrir la versión original del taller">V2 · Cambiar a V1</a>
   <main id="login-view" class="login-layout">
-    <section class="intro">
-      <a class="brand" href="/">◈ LabTrack</a>
-      <span class="eyebrow">DEL PROMPT AL DESPLIEGUE</span>
-      <h1>Una idea.<br>Un experimento.<br>Un nuevo hallazgo.</h1>
-      <p>Organiza tus proyectos, registra cada resultado y conserva el contexto de lo que aprendiste.</p>
-      <div class="intro-footer">Proyectos · Experimentos · Resultados</div>
-    </section>
+    <div class="destellos" aria-hidden="true"><span>✦</span><span>✧</span><span>✦</span><span>✧</span><span>✦</span><span>✧</span><span>✦</span></div>
     <section class="login-card">
-      <span class="eyebrow">TU ESPACIO DE TRABAJO</span>
-      <h2>Continúa explorando</h2><p>Inicia sesión para abrir tu bitácora.</p>
-      <form id="login-form">
+      <a class="brand" href="/"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6.5L4.8 18.2A2 2 0 0 0 6.5 21h11a2 2 0 0 0 1.7-2.8L14 9.5V3M7.2 15h9.6"/></svg>LabTrack</a>
+      <h1>Registra. Compara.<br>Descubre.</h1>
+      <div class="pestanas" role="tablist" aria-label="Acceso">
+        <button type="button" class="pestana" role="tab" id="tab-login" aria-controls="login-form" aria-selected="true">Iniciar sesión</button>
+        <button type="button" class="pestana" role="tab" id="tab-registro" aria-controls="register-form" aria-selected="false" tabindex="-1">Crear cuenta</button>
+      </div>
+      <form id="login-form" role="tabpanel" aria-labelledby="tab-login">
         <label>Correo electrónico<input name="email" type="email" autocomplete="username" required placeholder="ana@example.com"></label>
         <label>Contraseña<input name="password" type="password" autocomplete="current-password" required maxlength="128"></label>
         <button type="submit">Entrar a LabTrack <span aria-hidden="true">→</span></button>
         <p id="login-error" class="error" role="alert"></p>
       </form>
-      <p class="help">Usa la cuenta y contraseña que configuraste al preparar el proyecto.</p>
+      <form id="register-form" role="tabpanel" aria-labelledby="tab-registro" hidden>
+        <label>Correo electrónico<input name="email" type="email" autocomplete="email" required placeholder="tu@correo.com"></label>
+        <label>Contraseña <small>(mínimo 12 caracteres)</small><input name="password" type="password" autocomplete="new-password" required minlength="12" maxlength="128"></label>
+        <label>Confirmar contraseña<input name="confirm" type="password" autocomplete="new-password" required minlength="12" maxlength="128"></label>
+        <button type="submit">Crear cuenta <span aria-hidden="true">→</span></button>
+        <p id="register-error" class="error" role="alert"></p>
+      </form>
     </section>
+    <div class="login-pie">Proyectos · Experimentos · Métricas</div>
   </main>
   <div id="workspace" hidden>
-    <header class="topbar"><a class="brand" href="/">◈ LabTrack</a><div class="account"><span id="user-email"></span><button id="logout" class="ghost">Cerrar sesión</button></div></header>
+    <header class="topbar"><a class="brand" href="/"><svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6.5L4.8 18.2A2 2 0 0 0 6.5 21h11a2 2 0 0 0 1.7-2.8L14 9.5V3M7.2 15h9.6"/></svg>LabTrack</a><div class="account"><span id="user-email"></span><button id="logout" class="ghost">Cerrar sesión</button></div></header>
     <main class="workspace">
       <section class="page-heading"><div><span class="eyebrow">BITÁCORA DE INVESTIGACIÓN</span><h1>Tus ideas, en progreso.</h1><p>Un lugar para conectar proyectos con resultados.</p></div><a href="/docs" target="_blank" rel="noopener" class="text-link">Explorar la API ↗</a></section>
       <section class="stats" aria-label="Resumen"><div><span>Proyectos</span><strong id="project-count">—</strong></div><div><span>Experimentos registrados</span><strong id="experiment-count">—</strong></div><div class="stat-note">Cada resultado cuenta.<br><b>Documenta lo que aprendiste.</b></div></section>
@@ -43,7 +51,7 @@
           <div id="experiment-empty" class="empty"><span aria-hidden="true">◈</span><h3>Todo empieza con una pregunta</h3><p>Aquí aparecerán los experimentos de tu proyecto.</p></div>
         </section>
       </div>
-      <footer>LabTrack · Un proyecto construido para aprender, experimentar y compartir.</footer>
+      <footer>LabTrack · Bitácora de proyectos y experimentos.</footer>
     </main>
   </div>
   <dialog id="project-dialog"><form id="project-form"><div class="panel-heading"><h2 id="project-dialog-title">Nuevo proyecto</h2><button type="button" class="ghost close-dialog" aria-label="Cerrar">✕</button></div><label>Nombre<input name="name" required maxlength="120"></label><label>Descripción<textarea name="description" rows="3" maxlength="2000"></textarea></label><p class="error form-error" role="alert"></p><div class="dialog-footer"><button type="button" class="ghost close-dialog">Cancelar</button><button type="submit">Guardar proyecto</button></div></form></dialog>

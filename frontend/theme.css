@@ -1,0 +1,239 @@
+/* Identidad visual de LabTrack: paleta luminosa y etérea (azul hielo, lila, rosa y champán).
+   Se carga después de styles.css; para cambiar colores basta con editar :root.
+   Contraste comprobado contra WCAG AA (texto normal >= 4.5:1). */
+
+@font-face { font-family: "Inter"; src: url("fonts/inter.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Cormorant Garamond"; src: url("fonts/cormorant-garamond.woff2") format("woff2"); font-weight: 300 700; font-display: swap; }
+
+:root {
+  /* Paleta base */
+  --blanco: #ffffff;
+  --azul-hielo: #dce8f8;
+  --azul-pastel: #c8d8f0;
+  --lila-suave: #e9ddf5;
+  --rosa-pastel: #f5dce5;
+  --champan: #ede5cf;
+
+  /* Roles de la interfaz */
+  --texto: #2f3349;
+  --muted: #5f6480;
+  --border: #e3e8f4;
+  --borde-campo: var(--azul-pastel);
+  --accent: #5b68ae;
+  --enlace: #5b5fa8;
+  --accent-hover: #4a5697;
+  --accent-suave: #f3f0fb;
+  --boton-fondo: linear-gradient(135deg, #5b68ae 0%, #7a62a6 100%);
+  --superficie: rgb(255 255 255 / 0.92);
+  --seleccion: var(--lila-suave);
+  --seleccion-borde: #cdb8e6;
+  --hover-tarjeta: #fbeef3;
+  --peligro: #a3405c;
+  --titulo-degradado: linear-gradient(120deg, #2f3349 0%, #5b68ae 55%, #7a62a6 100%);
+  --sombra: 0 10px 34px rgb(91 104 174 / 0.09);
+
+  --font-cuerpo: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-titulos: "Cormorant Garamond", Georgia, serif;
+
+  font-family: var(--font-cuerpo);
+  color: var(--texto);
+  background: var(--blanco);
+}
+
+body {
+  background:
+    radial-gradient(circle at 0% 0%, rgb(220 232 248 / 0.75), transparent 34%),
+    radial-gradient(circle at 100% 0%, rgb(245 220 229 / 0.6), transparent 30%),
+    radial-gradient(circle at 100% 100%, rgb(233 221 245 / 0.55), transparent 32%),
+    var(--blanco);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+h1, h2, h3, .brand, .stats strong {
+  font-family: var(--font-titulos);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.stats strong { font-variant-numeric: lining-nums tabular-nums; }
+.page-heading h1 { font-size: 2.7rem; }
+
+.brand { display: inline-flex; align-items: center; gap: 0.4em; }
+.brand-mark {
+  width: 1.05em;
+  height: 1.05em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Controles */
+button { background: var(--boton-fondo); color: var(--blanco); border-radius: 12px; }
+button:hover { background: var(--accent-hover); }
+button.ghost { background: transparent; color: var(--enlace); border-color: var(--border); }
+button.ghost:hover { background: var(--accent-suave); }
+input, textarea, select {
+  border-color: var(--borde-campo);
+  border-radius: 12px;
+  background: var(--blanco);
+  color: var(--texto);
+}
+input:focus, textarea:focus, select:focus { outline-color: var(--accent); }
+.eyebrow, .text-link { color: var(--enlace); }
+.danger { color: var(--peligro) !important; }
+.error { color: var(--peligro); }
+
+/* ---------- Acceso: tarjeta de cristal sobre degradado ---------- */
+.login-layout {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  padding: 24px 16px;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(160deg, var(--azul-hielo) 0%, var(--azul-pastel) 30%, var(--lila-suave) 60%, var(--rosa-pastel) 82%, var(--champan) 100%);
+}
+/* El acceso ocupa exactamente la pantalla: sin barra de desplazamiento */
+html:has(#login-view:not([hidden])), body:has(#login-view:not([hidden])) { overflow: hidden; }
+
+/* Halos de luz que flotan detrás de la tarjeta */
+.login-layout::before,
+.login-layout::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+  animation: flotar 14s ease-in-out infinite alternate;
+}
+.login-layout::before { width: 520px; height: 520px; left: -140px; top: -120px; background: rgb(255 255 255 / 0.7); }
+.login-layout::after { width: 460px; height: 460px; right: -120px; bottom: -140px; background: rgb(233 221 245 / 0.9); animation-delay: -7s; }
+
+.destellos { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.destellos span {
+  position: absolute;
+  color: var(--blanco);
+  text-shadow: 0 0 14px rgb(255 255 255 / 0.95), 0 0 32px rgb(200 216 240 / 0.95);
+  animation: brillar 4s ease-in-out infinite;
+}
+.destellos span:nth-child(1) { left: 12%; top: 16%; font-size: 2.4rem; }
+.destellos span:nth-child(2) { left: 22%; top: 72%; font-size: 1.2rem; animation-delay: -1.2s; }
+.destellos span:nth-child(3) { right: 14%; top: 22%; font-size: 1.8rem; animation-delay: -2.4s; }
+.destellos span:nth-child(4) { right: 24%; top: 64%; font-size: 1rem; animation-delay: -0.6s; }
+.destellos span:nth-child(5) { right: 9%; bottom: 12%; font-size: 2.8rem; animation-delay: -3s; }
+.destellos span:nth-child(6) { left: 7%; bottom: 30%; font-size: 1.4rem; animation-delay: -1.8s; }
+.destellos span:nth-child(7) { left: 46%; top: 7%; font-size: 1.1rem; animation-delay: -2.8s; }
+
+.login-card {
+  width: min(420px, 100%);
+  max-height: 100%;
+  margin: 0;
+  padding: 30px 34px 22px;
+  border: 1px solid rgb(255 255 255 / 0.75);
+  border-radius: 28px;
+  background: linear-gradient(160deg, rgb(255 255 255 / 0.72), rgb(255 255 255 / 0.5));
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  box-shadow: 0 24px 60px rgb(91 104 174 / 0.18), inset 0 1px 0 rgb(255 255 255 / 0.95);
+}
+.login-card .brand { font-size: 1.35rem; color: var(--texto); text-decoration: none; margin-bottom: 14px; }
+.login-card h1 {
+  margin-bottom: 18px;
+  font-size: 2.35rem;
+  line-height: 1.05;
+  background: var(--titulo-degradado);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.login-card form { margin-top: 0; }
+.login-card label { margin-bottom: 12px; }
+.login-card label small { font-weight: 400; color: var(--muted); }
+.login-card input { padding: 10px 12px; background: rgb(255 255 255 / 0.85); }
+.login-card form button { margin-top: 4px; box-shadow: 0 8px 22px rgb(91 104 174 / 0.3); }
+.login-card .error { margin: 10px 0 0; }
+
+/* Pestañas Iniciar sesión / Crear cuenta */
+.pestanas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin-bottom: 16px;
+  padding: 4px;
+  border-radius: 14px;
+  background: rgb(255 255 255 / 0.55);
+  border: 1px solid rgb(255 255 255 / 0.8);
+}
+.login-card .pestana {
+  display: block;
+  width: auto;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--muted);
+  font-size: 0.88rem;
+  text-align: center;
+}
+.login-card .pestana:hover { background: rgb(255 255 255 / 0.6); }
+.login-card .pestana[aria-selected="true"] {
+  background: var(--blanco);
+  color: var(--texto);
+  box-shadow: 0 2px 10px rgb(91 104 174 / 0.15);
+}
+.login-pie { color: #4a5170; font-size: 0.78rem; letter-spacing: 0.08em; }
+
+/* Cambio entre la versión original (V1) y esta (V2) */
+.cambio-version {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 20;
+  padding: 7px 14px;
+  border: 1px solid rgb(255 255 255 / 0.85);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px rgb(91 104 174 / 0.15);
+  color: var(--enlace);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.cambio-version:hover { background: var(--blanco); }
+
+@keyframes flotar { to { transform: translate(60px, 40px) scale(1.08); } }
+@keyframes brillar { 0%, 100% { opacity: 0.35; transform: scale(0.85); } 50% { opacity: 1; transform: scale(1.1); } }
+@media (prefers-reduced-motion: reduce) {
+  .login-layout::before, .login-layout::after, .destellos span { animation: none; }
+}
+
+/* ---------- Espacio de trabajo ---------- */
+.topbar { background: var(--superficie); }
+.topbar .brand { color: var(--texto); }
+.stats, .panel { background: var(--superficie); border-radius: 20px; box-shadow: var(--sombra); }
+.stats .stat-note {
+  background: linear-gradient(120deg, var(--azul-hielo) 0%, var(--lila-suave) 55%, var(--rosa-pastel) 100%);
+  color: var(--texto);
+  border-radius: 0 20px 20px 0;
+}
+.project-card { color: var(--texto); background: var(--blanco); border-radius: 14px; }
+.project-card:hover { background: var(--hover-tarjeta); }
+.project-card.active { background: var(--seleccion); border-color: var(--seleccion-borde); }
+th { background: var(--azul-hielo); color: #4a5170; }
+.empty > span { color: var(--seleccion-borde); }
+
+dialog { background: var(--blanco); color: var(--texto); border-radius: 22px; }
+dialog::backdrop { background: rgb(47 51 73 / 0.35); }
+#notice { background: #3b3f5c; color: var(--blanco); border-radius: 12px; }
