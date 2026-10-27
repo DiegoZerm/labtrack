@@ -25,7 +25,9 @@ def add_user(db, email, password):
 
 def main():
     parser = argparse.ArgumentParser(description="Administración local de LabTrack")
-    parser.add_argument("command", choices=["seed-demo", "seed-showcase", "create-user"])
+    parser.add_argument(
+        "command", choices=["seed-demo", "seed-showcase", "seed-admin", "create-user"]
+    )
     args = parser.parse_args()
     settings = Settings()
     engine = make_engine(settings.database_url)
@@ -38,6 +40,17 @@ def main():
                     raise ValueError("Las contraseñas no coinciden.")
                 user = add_user(db, email, password)
                 print("Usuario creado." if user else "El usuario ya existe; no se modificó.")
+            elif args.command == "seed-admin":
+                if settings.session_cookie_secure:
+                    raise ValueError("El seed de demostración solo se permite en el entorno local.")
+                if not settings.demo_password:
+                    raise ValueError("Ejecuta primero python scripts/init_env.py.")
+                user = add_user(db, "admin@example.com", settings.demo_password)
+                print("Administrador creado." if user else "El administrador ya existe.")
+                print("Cuenta: admin@example.com con la contraseña DEMO_PASSWORD de tu .env.")
+                if "admin@example.com" not in [e.lower() for e in settings.admin_emails]:
+                    print('Agrega ADMIN_EMAILS=["admin@example.com"] a tu .env para darle')
+                    print("permisos de administrador.")
             elif args.command == "seed-showcase":
                 if settings.session_cookie_secure:
                     raise ValueError("El seed de demostración solo se permite en el entorno local.")
