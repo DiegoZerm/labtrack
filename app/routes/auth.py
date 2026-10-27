@@ -3,9 +3,10 @@ from datetime import timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from sqlalchemy import delete, select
+from sqlalchemy.exc import IntegrityError
 
 from app.models import AuthSession, LoginThrottle, User, utcnow
-from app.schemas import LoginInput
+from app.schemas import LoginInput, RegisterInput
 from app.security import (
     COOKIE_NAME,
     DUMMY_HASH,
@@ -44,6 +45,29 @@ def login(payload: LoginInput, request: Request, response: Response, db=Depends(
         raise HTTPException(401, "Correo o contraseña incorrectos.")
     if throttle:
         db.delete(throttle)
+    return start_session(db, request, response, user)
+
+
+@router.post("/register", status_code=201)
+def register(payload: RegisterInput, request: Request, response: Response, db=Depends(get_db)):
+    verify_origin(request)
+    email = str(payload.email).lower()
+    if db.scalar(select(User).where(User.email == email)):
+        raise HTTPException(409, "Ya existe una cuenta con ese correo.")
+    user = User(email=email, password_hash=password_hasher.hash(payload.password))
+    db.add(user)
+    try:
+        db.flush()
+    except IntegrityError:
+        # Otra petición creó la misma cuenta entre la consulta y el INSERT.
+        db.rollback()
+        raise HTTPException(409, "Ya existe una cuenta con ese correo.") from None
+    return start_session(db, request, response, user)
+
+
+def start_session(db, request: Request, response: Response, user: User):
+    # Crea una sesión nueva, revoca la anterior de este navegador y entrega la cookie.
+    now = utcnow()
     old_token = request.cookies.get(COOKIE_NAME)
     if old_token:
         db.execute(delete(AuthSession).where(AuthSession.token_hash == digest(old_token)))
