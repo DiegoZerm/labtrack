@@ -20,7 +20,7 @@ Se creó el proyecto "Clasificación de materiales" con la pestaña Network abie
 | Cambiar el valor a 0.87 | La tabla muestra 0.87 | ![](evidencias/ej2-editar.png) |
 | Filtrar por RandomForest, por un modelo inexistente y limpiar | 1 resultado, lista vacía y de nuevo todos | ![](evidencias/ej2-filtro.png) |
 | Borrar el proyecto con experimentos | Rechazado: la API responde 409 | ![](evidencias/ej2-borrar.png) |
-| Entrar como Luis en otra sesión | El proyecto de Ana no aparece | ![](evidencias/ej2-luis.png) |
+| Entrar como Luis en otra sesión | Solo aparece su proyecto de demostración (también se llama «Clasificación de materiales», pero con descripción «Datos ficticios…» y 0.84 F1). El de Ana, sin descripción y con 0.87, no aparece | ![](evidencias/ej2-luis.png) |
 | `pytest tests/test_domain.py -k tenant` | `PASSED`: los IDs ajenos responden 404 | ![](evidencias/ej2-prueba.png) |
 
 **Autenticación frente a autorización.** La **autenticación** responde *quién eres*: el login verifica la contraseña con Argon2 y entrega una cookie de sesión. La **autorización** responde *qué puedes tocar*: en cada consulta la API filtra por el propietario (`owned_project` y `owned_experiment`). Luis está autenticado, pero no está autorizado para ver los datos de Ana (y si intentara usar el panel de usuarios, la API le respondería **403**, porque no está en `ADMIN_EMAILS`); por eso la prueba recibe **404** en las 8 operaciones sobre IDs ajenos. Se usa 404 y no 403 para no revelar que el registro existe. Ocultar un botón en la interfaz no protegería la API: la comprobación ocurre en el servidor.
