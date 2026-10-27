@@ -65,7 +65,9 @@ function decorarTarjetas() {
   const tarjetas = document.querySelectorAll("#project-list .project-card");
   projects.forEach((proyecto, indice) => {
     const datos = indicadores.get(proyecto.id), tarjeta = tarjetas[indice];
-    if (!datos || !tarjeta || tarjeta.querySelector(".tarjeta-datos")) return;
+    if (!tarjeta) return;
+    tarjeta.querySelector(".tarjeta-datos")?.remove();
+    if (!datos) return;
     const linea = document.createElement("span");
     linea.className = "tarjeta-datos";
     if (!datos.experiments) {
