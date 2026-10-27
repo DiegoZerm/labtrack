@@ -4,7 +4,17 @@ import pytest
 @pytest.mark.parametrize(
     ("path", "assets"),
     [
-        ("/", ["/static/styles.css", "/static/theme.css", "/static/app.js", "/static/registro.js"]),
+        (
+            "/",
+            [
+                "/static/styles.css",
+                "/static/theme.css",
+                "/static/app.js",
+                "/static/usuarios.js",
+                "/static/panel.js",
+                "/static/rei.js",
+            ],
+        ),
         ("/v1", ["/static/v1/styles.css", "/static/v1/app.js"]),
     ],
 )
@@ -22,7 +32,7 @@ def test_versions_link_to_each_other(client):
     assert 'class="cambio-version" href="/"' in client.get("/v1").text
 
 
-def test_v1_keeps_original_login_without_signup(client):
+def test_v1_keeps_original_login(client):
     html = client.get("/v1").text
     assert 'id="login-form"' in html
-    assert "register-form" not in html
+    assert "usuarios.js" not in html

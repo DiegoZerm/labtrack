@@ -10,3 +10,5 @@ class Settings(BaseSettings):
     session_cookie_secure: bool = False
     session_hours: int = Field(default=8, ge=1, le=48)
     demo_password: str | None = None
+    # Correos con permiso para crear y listar usuarios.
+    admin_emails: list[str] = []

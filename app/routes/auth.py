@@ -3,16 +3,16 @@ from datetime import timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from sqlalchemy import delete, select
-from sqlalchemy.exc import IntegrityError
 
 from app.models import AuthSession, LoginThrottle, User, utcnow
-from app.schemas import LoginInput, RegisterInput
+from app.schemas import LoginInput
 from app.security import (
     COOKIE_NAME,
     DUMMY_HASH,
     digest,
     get_current_user,
     get_db,
+    is_admin,
     password_hasher,
     verify_origin,
 )
@@ -48,23 +48,6 @@ def login(payload: LoginInput, request: Request, response: Response, db=Depends(
     return start_session(db, request, response, user)
 
 
-@router.post("/register", status_code=201)
-def register(payload: RegisterInput, request: Request, response: Response, db=Depends(get_db)):
-    verify_origin(request)
-    email = str(payload.email).lower()
-    if db.scalar(select(User).where(User.email == email)):
-        raise HTTPException(409, "Ya existe una cuenta con ese correo.")
-    user = User(email=email, password_hash=password_hasher.hash(payload.password))
-    db.add(user)
-    try:
-        db.flush()
-    except IntegrityError:
-        # Otra petición creó la misma cuenta entre la consulta y el INSERT.
-        db.rollback()
-        raise HTTPException(409, "Ya existe una cuenta con ese correo.") from None
-    return start_session(db, request, response, user)
-
-
 def start_session(db, request: Request, response: Response, user: User):
     # Crea una sesión nueva, revoca la anterior de este navegador y entrega la cookie.
     now = utcnow()
@@ -92,12 +75,16 @@ def start_session(db, request: Request, response: Response, user: User):
         samesite="lax",
         path="/",
     )
-    return {"email": user.email, "csrf_token": csrf}
+    return {"email": user.email, "csrf_token": csrf, "is_admin": is_admin(request, user)}
 
 
 @router.get("/me")
 def me(request: Request, user=Depends(get_current_user)):
-    return {"email": user.email, "csrf_token": request.state.auth_session.csrf_token}
+    return {
+        "email": user.email,
+        "csrf_token": request.state.auth_session.csrf_token,
+        "is_admin": is_admin(request, user),
+    }
 
 
 @router.post("/logout", status_code=204)

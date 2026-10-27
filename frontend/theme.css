@@ -157,40 +157,11 @@ html:has(#login-view:not([hidden])), body:has(#login-view:not([hidden])) { overf
 }
 .login-card form { margin-top: 0; }
 .login-card label { margin-bottom: 12px; }
-.login-card label small { font-weight: 400; color: var(--muted); }
 .login-card input { padding: 10px 12px; background: rgb(255 255 255 / 0.85); }
 .login-card form button { margin-top: 4px; box-shadow: 0 8px 22px rgb(91 104 174 / 0.3); }
 .login-card .error { margin: 10px 0 0; }
 
-/* Pestañas Iniciar sesión / Crear cuenta */
-.pestanas {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px;
-  margin-bottom: 16px;
-  padding: 4px;
-  border-radius: 14px;
-  background: rgb(255 255 255 / 0.55);
-  border: 1px solid rgb(255 255 255 / 0.8);
-}
-.login-card .pestana {
-  display: block;
-  width: auto;
-  padding: 8px 10px;
-  border: 0;
-  border-radius: 10px;
-  background: transparent;
-  box-shadow: none;
-  color: var(--muted);
-  font-size: 0.88rem;
-  text-align: center;
-}
-.login-card .pestana:hover { background: rgb(255 255 255 / 0.6); }
-.login-card .pestana[aria-selected="true"] {
-  background: var(--blanco);
-  color: var(--texto);
-  box-shadow: 0 2px 10px rgb(91 104 174 / 0.15);
-}
+.acceso-nota { margin: 14px 0 0; text-align: center; color: var(--muted); font-size: 0.85rem; }
 .login-pie { color: #4a5170; font-size: 0.78rem; letter-spacing: 0.08em; }
 
 /* Cambio entre la versión original (V1) y esta (V2) */
@@ -351,3 +322,25 @@ dialog.confirmacion { width: min(400px, calc(100% - 28px)); text-align: center; 
   .rei-sticker { animation: none; opacity: 1; transform: rotate(var(--giro)); }
   .rei-chispa { display: none; }
 }
+
+/* ---------- Panel de usuarios (administrador) ---------- */
+dialog.usuarios-dialogo { width: min(640px, calc(100% - 28px)); }
+.usuarios-dialogo .help { margin-bottom: 18px; }
+.usuarios-dialogo form { padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid var(--border); }
+.usuarios-ayuda { margin: -6px 0 0; font-size: 0.8rem; color: var(--muted); }
+.enlace-boton {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--enlace);
+  font-size: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+}
+.enlace-boton:hover { background: none; color: var(--accent-hover); }
+.usuarios-dialogo .dialog-footer { margin-top: 12px; }
+.usuarios-tabla td { padding: 11px 10px; }
+.usuarios-tabla tr.usuario-nuevo td { background: var(--accent-suave); }
+.rol { display: inline-block; padding: 2px 9px; border-radius: 999px; background: var(--azul-hielo); color: #4a5170; font-size: 0.74rem; font-weight: 600; }
+.rol-admin { background: var(--lila-suave); color: #5a4a8c; }
+.account { gap: 12px; }
