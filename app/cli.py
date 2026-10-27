@@ -8,6 +8,7 @@ from app.config import Settings
 from app.db import make_engine, make_session_factory
 from app.models import Experiment, Project, User
 from app.security import password_hasher
+from app.showcase import seed_showcase
 
 
 def add_user(db, email, password):
@@ -24,7 +25,7 @@ def add_user(db, email, password):
 
 def main():
     parser = argparse.ArgumentParser(description="Administración local de LabTrack")
-    parser.add_argument("command", choices=["seed-demo", "create-user"])
+    parser.add_argument("command", choices=["seed-demo", "seed-showcase", "create-user"])
     args = parser.parse_args()
     settings = Settings()
     engine = make_engine(settings.database_url)
@@ -37,6 +38,18 @@ def main():
                     raise ValueError("Las contraseñas no coinciden.")
                 user = add_user(db, email, password)
                 print("Usuario creado." if user else "El usuario ya existe; no se modificó.")
+            elif args.command == "seed-showcase":
+                if settings.session_cookie_secure:
+                    raise ValueError("El seed de demostración solo se permite en el entorno local.")
+                if not settings.demo_password:
+                    raise ValueError("Ejecuta primero python scripts/init_env.py.")
+                created = seed_showcase(db, settings.demo_password, add_user)
+                print(
+                    f"Datos de muestra: {created['users']} usuarios, "
+                    f"{created['projects']} proyectos y "
+                    f"{created['experiments']} experimentos nuevos."
+                )
+                print("Cuentas: ana@, luis@, maria@ y sofia@example.com con DEMO_PASSWORD.")
             else:
                 if settings.session_cookie_secure:
                     raise ValueError("El seed de demostración solo se permite en el entorno local.")
