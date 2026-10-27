@@ -10,7 +10,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.config import Settings
 from app.db import make_engine, make_session_factory
 from app.models import Experiment, Project
-from app.routes import auth, experiments, projects
+from app.routes import auth, experiments, insights, projects
 from app.security import get_current_user, get_db
 
 WEB = Path(__file__).resolve().parent.parent / "frontend"
@@ -70,6 +70,7 @@ def create_app(settings: Settings | None = None):
     app.include_router(auth.router, prefix="/api")
     app.include_router(projects.router, prefix="/api")
     app.include_router(experiments.router, prefix="/api")
+    app.include_router(insights.router, prefix="/api")
     app.mount("/static", StaticFiles(directory=WEB), name="static")
 
     @app.get("/", include_in_schema=False)
