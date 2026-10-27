@@ -36,3 +36,23 @@ def test_v1_keeps_original_login(client):
     html = client.get("/v1").text
     assert 'id="login-form"' in html
     assert "usuarios.js" not in html
+
+
+def test_editing_without_optional_fields_keeps_them(authenticated):
+    project_id = authenticated.post("/api/projects", json={"name": "P"}).json()["id"]
+    base = {
+        "name": "E",
+        "model": "M",
+        "dataset_version": "v1",
+        "metric_name": "F1",
+        "metric_value": 0.5,
+    }
+    created = authenticated.post(
+        f"/api/projects/{project_id}/experiments", json={**base, "notes": "Conservar"}
+    ).json()
+    edited = authenticated.put(
+        f"/api/experiments/{created['id']}", json={**base, "metric_value": 0.6}
+    )
+    assert edited.status_code == 200
+    assert edited.json()["metric_value"] == 0.6
+    assert edited.json()["notes"] == "Conservar"

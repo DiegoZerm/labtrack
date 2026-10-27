@@ -61,7 +61,8 @@ def update_experiment(
     db=Depends(get_db),
 ):
     experiment = owned_experiment(db, experiment_id, user.id)
-    for field, value in payload.model_dump().items():
+    # Los campos con valor por defecto que no llegan se conservan: la V1 no envía todos.
+    for field, value in payload.model_dump(exclude_unset=True).items():
         setattr(experiment, field, value)
     db.commit()
     return experiment
