@@ -107,3 +107,17 @@ def test_persistence_after_new_app(authenticated, database_url):
     with TestClient(new_app, headers={"Origin": "http://testserver"}) as second:
         login(second)
         assert second.get(f"/api/projects/{project_id}").json()["name"] == "Demanda"
+
+
+def test_experiment_status(authenticated):
+    project_id = create_project(authenticated)
+    path = f"/api/projects/{project_id}/experiments"
+    assert authenticated.post(path, json=EXPERIMENT).json()["status"] == "completed"
+    response = authenticated.post(path, json={**EXPERIMENT, "status": "planned"})
+    assert response.json()["status"] == "planned"
+    assert authenticated.post(path, json={**EXPERIMENT, "status": "archived"}).status_code == 422
+    # La V1 edita sin enviar status: el estado guardado debe conservarse.
+    edited = authenticated.put(
+        f"/api/experiments/{response.json()['id']}", json={**EXPERIMENT, "metric_value": 0.9}
+    )
+    assert edited.json()["status"] == "planned"

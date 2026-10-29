@@ -111,6 +111,8 @@ async function loadExperiments() {
   renderExperiments();
 }
 
+const STATUS = { planned: "Planeado", completed: "Completado", discarded: "Descartado" };
+
 function renderExperiments() {
   $("#experiment-list").replaceChildren();
   $("#experiment-empty h3").textContent = "Todo empieza con una pregunta";
@@ -129,12 +131,12 @@ function renderExperiments() {
     remove.setAttribute("aria-label", `Eliminar ${experiment.name}`);
     edit.addEventListener("click", () => openExperiment(experiment));
     remove.addEventListener("click", async () => {
-      if (!confirm(`¿Eliminar el experimento “${experiment.name}”?`)) return;
+      if (!(await confirmar(`¿Eliminar el experimento “${experiment.name}”?`))) return;
       try { await api(`/experiments/${experiment.id}`, { method: "DELETE" }); await refresh(); notify("Experimento eliminado."); }
       catch (error) { notify(error.message); }
     });
     buttons.append(edit, remove); actions.append(buttons);
-    row.append(name, element("td", experiment.model), metric, actions);
+    row.append(name, element("td", experiment.model), metric, element("td", STATUS[experiment.status] ?? experiment.status), actions);
     $("#experiment-list").append(row);
   });
 }
@@ -182,7 +184,7 @@ $("#filter-form").addEventListener("submit", async (event) => {
   event.preventDefault(); try { await loadExperiments(); } catch (error) { notify(error.message); }
 });
 $("#delete-project").addEventListener("click", async () => {
-  if (!confirm("¿Eliminar este proyecto? Primero debe estar vacío.")) return;
+  if (!(await confirmar("¿Eliminar este proyecto? Primero debe estar vacío."))) return;
   try { await api(`/projects/${selectedId}`, { method: "DELETE" }); selectedId = null; await refresh(); notify("Proyecto eliminado."); }
   catch (error) { notify(error.message); }
 });

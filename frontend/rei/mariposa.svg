@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Mariposa">
+  <title>Mariposa</title>
+  <defs>
+  <filter id="sticker" x="-25%" y="-25%" width="150%" height="150%">
+    <feMorphology in="SourceAlpha" operator="dilate" radius="4" result="grueso"/>
+    <feFlood flood-color="#ffffff"/><feComposite in2="grueso" operator="in" result="borde"/>
+    <feGaussianBlur in="grueso" stdDeviation="4" result="difuso"/><feOffset in="difuso" dy="3" result="bajo"/>
+    <feFlood flood-color="#9d8fd0" flood-opacity="0.28"/><feComposite in2="bajo" operator="in" result="sombra"/>
+    <feMerge><feMergeNode in="sombra"/><feMergeNode in="borde"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <linearGradient id="lila" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4eefb"/><stop offset="0.55" stop-color="#e9ddf5"/><stop offset="1" stop-color="#cdb8e6"/></linearGradient>
+  <linearGradient id="salvia" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6efe8"/><stop offset="1" stop-color="#c7d8cb"/></linearGradient>
+  </defs>
+  <g filter="url(#sticker)">
+    <g><path d="M98,92 C78,38 26,30 28,74 C30,102 66,110 98,100 Z" fill="url(#lila)" stroke="#c4addf" stroke-width="1.6"/>
+      <path d="M98,104 C72,104 42,124 52,152 C62,174 92,148 99,112 Z" fill="url(#salvia)" stroke="#a9c3af" stroke-width="1.6"/>
+      <path d="M92,94 C78,72 58,58 42,62 M92,97 C74,92 56,92 42,86 M94,108 C80,118 68,132 64,146" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round" opacity="0.85"/>
+      <circle cx="52" cy="72" r="6" fill="#ffffff" opacity="0.75"/><circle cx="66" cy="62" r="3.2" fill="#f5dce5"/>
+      <circle cx="64" cy="140" r="4.5" fill="#ffffff" opacity="0.8"/><circle cx="44" cy="84" r="2.6" fill="#ffffff"/></g>
+    <g transform="translate(200,0) scale(-1,1)"><path d="M98,92 C78,38 26,30 28,74 C30,102 66,110 98,100 Z" fill="url(#lila)" stroke="#c4addf" stroke-width="1.6"/>
+      <path d="M98,104 C72,104 42,124 52,152 C62,174 92,148 99,112 Z" fill="url(#salvia)" stroke="#a9c3af" stroke-width="1.6"/>
+      <path d="M92,94 C78,72 58,58 42,62 M92,97 C74,92 56,92 42,86 M94,108 C80,118 68,132 64,146" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round" opacity="0.85"/>
+      <circle cx="52" cy="72" r="6" fill="#ffffff" opacity="0.75"/><circle cx="66" cy="62" r="3.2" fill="#f5dce5"/>
+      <circle cx="64" cy="140" r="4.5" fill="#ffffff" opacity="0.8"/><circle cx="44" cy="84" r="2.6" fill="#ffffff"/></g>
+    <path d="M97,70 C88,50 80,40 70,38 M103,70 C112,50 120,40 130,38" fill="none" stroke="#8f7cb8" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="70" cy="38" r="3.5" fill="#cdb8e6"/><circle cx="130" cy="38" r="3.5" fill="#cdb8e6"/>
+    <ellipse cx="100" cy="102" rx="5" ry="32" fill="#9f8cc6"/>
+    <ellipse cx="98.5" cy="90" rx="1.6" ry="12" fill="#ffffff" opacity="0.6"/>
+    <path d="M160,141 Q162.52,147.48 169,150 Q162.52,152.52 160,159 Q157.48,152.52 151,150 Q157.48,147.48 160,141 Z" fill="#ffffff" stroke="#d8ccea" stroke-width="1.2"/><path d="M38,154 Q39.68,158.32 44,160 Q39.68,161.68 38,166 Q36.32,161.68 32,160 Q36.32,158.32 38,154 Z" fill="#ffffff" stroke="#d8ccea" stroke-width="1.2"/>
+  </g>
+</svg>

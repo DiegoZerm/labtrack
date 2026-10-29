@@ -10,6 +10,7 @@ x-application: &application
     SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
     SESSION_HOURS: ${SESSION_HOURS:-8}
     DEMO_PASSWORD: ${DEMO_PASSWORD:-}
+    ADMIN_EMAILS: '${ADMIN_EMAILS:-[]}'
   init: true
   security_opt:
     - no-new-privileges:true

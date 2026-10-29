@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Varita mágica">
+  <title>Varita mágica</title>
+  <defs>
+  <filter id="sticker" x="-25%" y="-25%" width="150%" height="150%">
+    <feMorphology in="SourceAlpha" operator="dilate" radius="4" result="grueso"/>
+    <feFlood flood-color="#ffffff"/><feComposite in2="grueso" operator="in" result="borde"/>
+    <feGaussianBlur in="grueso" stdDeviation="4" result="difuso"/><feOffset in="difuso" dy="3" result="bajo"/>
+    <feFlood flood-color="#9d8fd0" flood-opacity="0.28"/><feComposite in2="bajo" operator="in" result="sombra"/>
+    <feMerge><feMergeNode in="sombra"/><feMergeNode in="borde"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <linearGradient id="plata" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7f7fa"/><stop offset="0.5" stop-color="#c9ccd6"/><stop offset="1" stop-color="#eceef3"/></linearGradient>
+  <linearGradient id="estrella" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9ddf5"/><stop offset="1" stop-color="#f5dce5"/></linearGradient>
+  <radialGradient id="halo"><stop offset="0" stop-color="#ffffff" stop-opacity="0.95"/><stop offset="1" stop-color="#e9ddf5" stop-opacity="0"/></radialGradient>
+  </defs>
+  <g filter="url(#sticker)">
+    <circle cx="132" cy="64" r="52" fill="url(#halo)"/>
+    <line x1="48" y1="170" x2="120" y2="82" stroke="#b9bcc6" stroke-width="12" stroke-linecap="round"/>
+    <line x1="48" y1="170" x2="120" y2="82" stroke="url(#plata)" stroke-width="9" stroke-linecap="round"/>
+    <line x1="52" y1="164" x2="116" y2="86" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+    <line x1="58" y1="158" x2="66" y2="148" stroke="#e9ddf5" stroke-width="11" stroke-linecap="butt"/>
+    <line x1="71" y1="142" x2="77" y2="134" stroke="#f5dce5" stroke-width="11" stroke-linecap="butt"/>
+    <polygon points="132.0,30.0 140.8,51.9 164.3,53.5 146.3,68.6 152.0,91.5 132.0,79.0 112.0,91.5 117.7,68.6 99.7,53.5 123.2,51.9" fill="url(#estrella)" stroke="#cdb8e6" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="128.0,43.7 132.0,53.5 142.6,54.3 134.4,61.1 137.0,71.4 128.0,65.8 119.0,71.4 121.6,61.1 113.4,54.3 124.0,53.5" fill="#ffffff" opacity="0.7"/>
+    <path d="M176,21 Q178.52,27.48 185,30 Q178.52,32.52 176,39 Q173.48,32.52 167,30 Q173.48,27.48 176,21 Z" fill="#ffffff" stroke="#d8ccea" stroke-width="1.2"/><path d="M92,28 Q93.68,32.32 98,34 Q93.68,35.68 92,40 Q90.32,35.68 86,34 Q90.32,32.32 92,28 Z" fill="#ffffff" stroke="#d8ccea" stroke-width="1.2"/><path d="M180,98 Q181.68,102.32 186,104 Q181.68,105.68 180,110 Q178.32,105.68 174,104 Q178.32,102.32 180,98 Z" fill="#ffffff" stroke="#d8ccea" stroke-width="1.2"/><path d="M160,124 Q161.12,126.88 164,128 Q161.12,129.12 160,132 Q158.88,129.12 156,128 Q158.88,126.88 160,124 Z" fill="#ffffff" stroke="#d8ccea" stroke-width="1.2"/>
+  </g>
+</svg>

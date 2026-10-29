@@ -12,6 +12,7 @@ from app.security import (
     digest,
     get_current_user,
     get_db,
+    is_admin,
     password_hasher,
     verify_origin,
 )
@@ -44,6 +45,12 @@ def login(payload: LoginInput, request: Request, response: Response, db=Depends(
         raise HTTPException(401, "Correo o contraseña incorrectos.")
     if throttle:
         db.delete(throttle)
+    return start_session(db, request, response, user)
+
+
+def start_session(db, request: Request, response: Response, user: User):
+    # Crea una sesión nueva, revoca la anterior de este navegador y entrega la cookie.
+    now = utcnow()
     old_token = request.cookies.get(COOKIE_NAME)
     if old_token:
         db.execute(delete(AuthSession).where(AuthSession.token_hash == digest(old_token)))
@@ -68,12 +75,16 @@ def login(payload: LoginInput, request: Request, response: Response, db=Depends(
         samesite="lax",
         path="/",
     )
-    return {"email": user.email, "csrf_token": csrf}
+    return {"email": user.email, "csrf_token": csrf, "is_admin": is_admin(request, user)}
 
 
 @router.get("/me")
 def me(request: Request, user=Depends(get_current_user)):
-    return {"email": user.email, "csrf_token": request.state.auth_session.csrf_token}
+    return {
+        "email": user.email,
+        "csrf_token": request.state.auth_session.csrf_token,
+        "is_admin": is_admin(request, user),
+    }
 
 
 @router.post("/logout", status_code=204)

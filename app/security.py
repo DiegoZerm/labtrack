@@ -42,3 +42,14 @@ def get_current_user(request: Request, db=Depends(get_db)) -> User:
         raise HTTPException(401, "Sesión inválida.")
     request.state.auth_session = session
     return user
+
+
+def is_admin(request: Request, user: User) -> bool:
+    admins = {email.lower() for email in request.app.state.settings.admin_emails}
+    return user.email.lower() in admins
+
+
+def require_admin(request: Request, user=Depends(get_current_user)) -> User:
+    if not is_admin(request, user):
+        raise HTTPException(403, "Solo el administrador puede gestionar usuarios.")
+    return user
