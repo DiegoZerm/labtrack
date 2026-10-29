@@ -53,7 +53,14 @@ Reparto sugerido: **Diego** acceso, panel, V2/V1 y administrador; **César** exp
 
 Para el **diagrama ER**: clic derecho sobre la conexión (o sobre *Tables*) → **View Diagram**. Muestra `users → projects → experiments` y las tablas de soporte `auth_sessions`, `login_throttles` y `alembic_version`.
 
-Para las consultas: **File → Open File…** → `docs/consultas-demo.sql`, colocar el cursor en una consulta y presionar **Ctrl + Enter**. Después de guardar algo en la app, presionar **F5** en el resultado para refrescarlo.
+Para las consultas:
+
+1. Conectar primero: doble clic en la conexión en **Database Navigator** (aparece una palomita verde).
+2. **File → Open File…** → `docs/consultas-demo.sql`.
+3. Asignar la conexión al editor con **Ctrl + 9** (o el selector **N/A** de la barra del editor) → elegir la conexión. Sin este paso DBeaver responde *No active connection*.
+4. Colocar el cursor en una consulta y presionar **Ctrl + Enter**.
+
+Alternativa: clic derecho en la conexión → **SQL Editor → Open SQL script** (Ctrl + ]) abre un editor ya conectado; ahí se pegan las consultas. Después de guardar algo en la app, presionar **F5** en el resultado para refrescarlo.
 
 | Consulta | Qué demuestra |
 |---|---|
