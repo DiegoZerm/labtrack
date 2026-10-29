@@ -105,7 +105,10 @@ Las pruebas usan bases temporales y no tocan `data/labtrack.db`. Cubren autentic
 
 - [Arquitectura, ERD y qué pasa al pulsar Guardar](docs/arquitectura-equipo.md)
 - [Evidencias de los ejercicios 1 a 3](docs/evidencias.md)
-- [Mejora propia: estado de los experimentos](docs/mejora-status.md)
+- [Ejercicio 4: estado de los experimentos](docs/mejora-status.md)
+- [Mejoras propias del equipo](docs/mejoras-propias.md)
+- [Diagnóstico y correcciones](docs/diagnostico.md)
+- [Guion de demostración y consultas de la base de datos](docs/demostracion.md)
 - [Contrato de la API](docs/02-arquitectura.md)
 
 ## Limitaciones

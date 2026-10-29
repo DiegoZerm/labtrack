@@ -1,4 +1,4 @@
-# Mejora propia: estado de los experimentos
+# Ejercicio 4: estado de los experimentos
 
 ## Qué se agregó
 

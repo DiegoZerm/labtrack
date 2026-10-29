@@ -50,3 +50,19 @@ def test_insights_only_include_own_data(authenticated):
 
 def test_insights_require_session(client):
     assert client.get("/api/insights").status_code == 401
+
+
+def test_planned_targets_are_not_results(authenticated):
+    client = authenticated
+    with_results = client.post("/api/projects", json={"name": "Con resultados"}).json()["id"]
+    only_planned = client.post("/api/projects", json={"name": "Solo metas"}).json()["id"]
+    done = add(client, with_results, name="Ejecutado", metric_value=0.80)
+    add(client, with_results, name="Meta", metric_value=0.95, status="planned")
+    add(client, only_planned, name="Meta", metric_value=0.99, status="planned")
+    body = client.get("/api/insights").json()
+    by_id = {project["id"]: project for project in body["projects"]}
+    assert by_id[with_results]["best"]["id"] == done["id"]
+    assert by_id[with_results]["experiments"] == 2
+    assert by_id[only_planned]["best"] is None
+    assert by_id[only_planned]["experiments"] == 1
+    assert body["highlight"]["id"] == done["id"]
