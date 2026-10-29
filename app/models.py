@@ -54,4 +54,5 @@ class Experiment(Base):
     metric_name: Mapped[str] = mapped_column(String(60))
     metric_value: Mapped[float] = mapped_column(Float)
     notes: Mapped[str] = mapped_column(Text, default="")
+    status: Mapped[str] = mapped_column(String(20), default="completed", server_default="completed")
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)

@@ -111,6 +111,8 @@ async function loadExperiments() {
   renderExperiments();
 }
 
+const STATUS = { planned: "Planeado", completed: "Completado", discarded: "Descartado" };
+
 function renderExperiments() {
   $("#experiment-list").replaceChildren();
   $("#experiment-empty h3").textContent = "Todo empieza con una pregunta";
@@ -134,7 +136,7 @@ function renderExperiments() {
       catch (error) { notify(error.message); }
     });
     buttons.append(edit, remove); actions.append(buttons);
-    row.append(name, element("td", experiment.model), metric, actions);
+    row.append(name, element("td", experiment.model), metric, element("td", STATUS[experiment.status] ?? experiment.status), actions);
     $("#experiment-list").append(row);
   });
 }
