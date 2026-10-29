@@ -76,7 +76,9 @@ function decorarTarjetas() {
       const mejor = datos.best;
       linea.append(
         element("span", `${datos.experiments} exp.`),
-        element("span", `★ ${formatoValor(mejor.metric_value)} ${mejor.metric_name}`, "tarjeta-mejor"),
+        mejor
+          ? element("span", `★ ${formatoValor(mejor.metric_value)} ${mejor.metric_name}`, "tarjeta-mejor")
+          : element("span", "solo planeados"),
         element("span", hace(datos.last_activity)),
       );
     }
@@ -115,7 +117,10 @@ evolucion.setAttribute("aria-label", "Evolución de la métrica");
 $("#experiment-tools").before(evolucion);
 
 function dibujarEvolucion() {
-  const lista = [...experiments].sort((a, b) => fechaUTC(a.created_at) - fechaUTC(b.created_at));
+  // Solo resultados: un experimento planeado guarda una meta, no una medición.
+  const lista = experiments
+    .filter((e) => e.status !== "planned")
+    .sort((a, b) => fechaUTC(a.created_at) - fechaUTC(b.created_at));
   const conteo = new Map();
   lista.forEach((e) => conteo.set(e.metric_name, (conteo.get(e.metric_name) || 0) + 1));
   const metrica = [...conteo.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];

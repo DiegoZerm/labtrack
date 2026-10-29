@@ -56,19 +56,22 @@ def insights(user=Depends(get_current_user), db=Depends(get_db)):
                 {"id": project_id, "experiments": 0, "last_activity": None, "best": None}
             )
             continue
-        # La métrica principal es la más usada en el proyecto.
-        metric_name = Counter(e.metric_name for e in experiments).most_common(1)[0][0]
-        best = best_of(experiments, metric_name)
-        records.append((best, entry["project"]))
-        projects.append(
-            {
-                "id": project_id,
-                "experiments": len(experiments),
-                "last_activity": max(e.created_at for e in experiments),
-                "higher_is_better": higher_is_better(metric_name),
-                "best": experiment_view(best),
-            }
-        )
+        # Un experimento planeado guarda una meta, no un resultado: no compite por el mejor.
+        executed = [e for e in experiments if e.status != "planned"]
+        summary = {
+            "id": project_id,
+            "experiments": len(experiments),
+            "last_activity": max(e.created_at for e in experiments),
+            "best": None,
+        }
+        if executed:
+            # La métrica principal es la más usada en el proyecto.
+            metric_name = Counter(e.metric_name for e in executed).most_common(1)[0][0]
+            best = best_of(executed, metric_name)
+            records.append((best, entry["project"]))
+            summary["higher_is_better"] = higher_is_better(metric_name)
+            summary["best"] = experiment_view(best)
+        projects.append(summary)
 
     highlight = None
     if records:

@@ -28,7 +28,7 @@ SELECT u.email AS duenio, p.name AS proyecto, e.name AS experimento,
 FROM experiments e
 JOIN projects p ON p.id = e.project_id
 JOIN users u    ON u.id = p.user_id
-WHERE u.email = 'ana@example.com' AND p.name = 'Detección de fraude'
+WHERE u.email = 'diego@example.com' AND p.name = 'GreenSense · humedad del sustrato'
 ORDER BY e.created_at;
 
 -- 5. Persistencia en vivo: el último experimento guardado desde la app
